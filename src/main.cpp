@@ -58,7 +58,7 @@ int main() {
                 string path = get_path(input.substr(5));
 
                 if (path.empty()) {
-                    cout << input << " not found\n";
+                    cout << input << ": not found\n";
                 }
                 else {
                     cout << input.substr(5) << " is " << path << endl;
