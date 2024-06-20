@@ -14,7 +14,7 @@ int main() {
     if (input.substr(0,4) == "exit") { //Exit function
         return 0;
     } else if (input.substr(0,4) == "echo") { //Echo function
-        std::cout << input.substr(4)<<"\n";
+        std::cout << input.substr(5)<<"\n";
     } else { //Command not found function
         std::cout << input <<": command not found\n";
     }
