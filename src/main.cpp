@@ -61,7 +61,7 @@ int main() {
                     cout << input << " not found\n";
                 }
                 else {
-                    cout << input << " is " << path << endl;
+                    cout << input.substr(5) << " is " << path << endl;
                 }
             }
         } else { //Command not found function
