@@ -1,14 +1,37 @@
 #include <iostream>
-#include <complex>
+#include <string>
 #include <sstream>
 #include <filesystem>
 
 using namespace std;
 
-string get_path(string command) {
-    string path_env = getenv("PATH");
-    stringstream ss(path_env);
-    string path;
+enum validCommands
+{
+    echo,
+    cd,
+    exit0,
+    type,
+    invalid,
+};
+
+validCommands isValid(std::string command) {
+    command = command.substr(0, command.find(" "));
+
+    if (command == "echo") return validCommands::echo;
+    if (command == "cd") return validCommands::cd;
+    if (command == "exit") return validCommands::exit0;
+    if (command == "type") return validCommands::type;
+
+    return invalid;
+}
+
+std::string valid[4] = { "echo", "cd", "exit0" };
+
+std::string get_path(std::string command) {
+    std::string path_env = std::getenv("PATH");
+
+    std::stringstream ss(path_env);
+    std::string path;
 
     while (!ss.eof()) {
         getline(ss, path, ':');
@@ -23,50 +46,51 @@ string get_path(string command) {
 }
 
 int main() {
-    // Flush after every std::cout / std:cerr
-    cout << std::unitbuf; // console out.
-    cerr << std::unitbuf; // console error.
-    
-    string commands[3] = { "exit", "echo", "type" };
-    bool running = true;
 
-    while (running) {
-        cout << "$ ";
-        string input;
-        getline(cin, input);
+    // You can use print statements as follows for debugging, they'll be visible when running tests.
+    // std::cout << "Logs from your program will appear here!\n";
 
-        if (input.substr(0, 4) == commands[0]) { //Exit function
-            running = false;
-        }
-        else if (input.substr(0, 4) == commands[1]) { //Echo function
-            cout << input.substr(5) << "\n";
-        }
-        else if (input.substr(0, 4) == commands[2]) { //Type function
-            bool found = false; //variable to hold a boolean for when a function is found.
+    bool exit = false;
 
-            for (int i = 0; i < 4; i++) { // Loops over the array to find if the command exists in the array.
-                if (commands[i] == input.substr(5)) {
-                    found = true;
-                    break; //Stops the for loop from continuing.
-                }
+    while (!exit) {
+        // Flush after every std::cout / std:cerr
+        std::cout << std::unitbuf;
+        std::cerr << std::unitbuf;
+        std::cout << "$ ";
+        std::string input;
+        std::getline(std::cin, input);
+
+        switch (isValid(input)) {
+        case cd:
+
+            break;
+        case echo:
+            input.erase(0, input.find(" ") + 1);
+            std::cout << input << "\n";
+            break;
+        case exit0:
+            exit = true;
+            break;
+        case type:
+            input.erase(0, input.find(" ") + 1);
+            if (isValid(input) != invalid) {
+                std::cout << input << " is a shell builtin\n";
             }
-
-            if (found) {
-                cout << input.substr(5) << " is a shell builtin\n";
-            } else {
-                string path = get_path(input);
+            else {
+                std::string path = get_path(input);
 
                 if (path.empty()) {
-                    cout << input << " not found\n";
+                    std::cout << input << " not found\n";
                 }
                 else {
-                    cout << input << " is " << path << endl;
+                    std::cout << input << " is " << path << std::endl;
                 }
             }
-        } else { //Command not found function
-            cout << input << ": command not found\n";
+            break;
+        default:
+            std::cout << input << ": command not found\n";
+            break;
         }
     }
 
-    return 0;
 }
