@@ -11,14 +11,15 @@ int main() {
     cerr << std::unitbuf; // console error.
     
     string commands[3] = { "exit", "echo", "type" };
+    bool running = true;
 
-    while (true) {
+    while (running) {
         cout << "$ ";
         string input;
         getline(cin, input);
 
         if (input.substr(0, 4) == commands[0]) { //Exit function
-            return 0;
+            running = false;
         }
         else if (input.substr(0, 4) == commands[1]) { //Echo function
             cout << input.substr(5) << "\n";
@@ -39,8 +40,13 @@ int main() {
                 cout << input.substr(5) << " not found\n";
             }
         }
+        else if(input.substr(0,4) == "PATH"){
+            
+        }
         else { //Command not found function
             cout << input << ": command not found\n";
         }
     }
+
+    return 0;
 }
