@@ -1,22 +1,27 @@
 #include <iostream>
 #include <complex>
+#include <sstream>
+#include <filesystem>
+
+using namespace std;
 
 int main() {
     // Flush after every std::cout / std:cerr
-    std::cout << std::unitbuf; // console out.
-    std::cerr << std::unitbuf; // console error.
-    std::string commands[3] = { "exit", "echo", "type" };
+    cout << std::unitbuf; // console out.
+    cerr << std::unitbuf; // console error.
+    
+    string commands[3] = { "exit", "echo", "type" };
 
     while (true) {
-        std::cout << "$ ";
-        std::string input;
-        std::getline(std::cin, input);
+        cout << "$ ";
+        string input;
+        getline(cin, input);
 
         if (input.substr(0, 4) == commands[0]) { //Exit function
             return 0;
         }
         else if (input.substr(0, 4) == commands[1]) { //Echo function
-            std::cout << input.substr(5) << "\n";
+            cout << input.substr(5) << "\n";
         }
         else if (input.substr(0, 4) == commands[2]) { //Type function
             bool found = false; //variable to hold a boolean for when a function is found.
@@ -29,13 +34,13 @@ int main() {
             }
 
             if (found) {
-                std::cout << input.substr(5) << " is a shell builtin\n";
+                cout << input.substr(5) << " is a shell builtin\n";
             } else {
-                std::cout << input.substr(5) << " not found\n";
+                cout << input.substr(5) << " not found\n";
             }
         }
         else { //Command not found function
-            std::cout << input << ": command not found\n";
+            cout << input << ": command not found\n";
         }
     }
 }
