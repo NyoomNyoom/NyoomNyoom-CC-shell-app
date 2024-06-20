@@ -5,6 +5,23 @@
 
 using namespace std;
 
+string get_path(string command) {
+    string path_env = getenv("PATH");
+    stringstream ss(path_env);
+    string path;
+
+    while (!ss.eof()) {
+        getline(ss, path, ':');
+
+        string abs_path = path + '/' + command;
+
+        if (filesystem::exists(abs_path)) {
+            return abs_path;
+        }
+    }
+    return "";
+}
+
 int main() {
     // Flush after every std::cout / std:cerr
     cout << std::unitbuf; // console out.
@@ -37,13 +54,16 @@ int main() {
             if (found) {
                 cout << input.substr(5) << " is a shell builtin\n";
             } else {
-                cout << input.substr(5) << " not found\n";
+                string path = get_path(input);
+
+                if (path.empty()) {
+                    cout << input << " not found\n";
+                }
+                else {
+                    cout << input << " is " << path << endl;
+                }
             }
-        }
-        else if(input.substr(0,4) == "PATH"){
-            
-        }
-        else { //Command not found function
+        } else { //Command not found function
             cout << input << ": command not found\n";
         }
     }
