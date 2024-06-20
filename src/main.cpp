@@ -24,15 +24,15 @@ std::string get_path(std::string command) {
 }
 
 int main() {
-    // Flush after every std::cout / std:cerr
-    cout << std::unitbuf; // console out.
-    cerr << std::unitbuf; // console error.
-    
     string commands[3] = { "exit", "echo", "type" };
     bool running = true;
 
     while (running) {
+        // Flush after every std::cout / std:cerr
+        cout << std::unitbuf; // console out.
+        cerr << std::unitbuf; // console error.
         cout << "$ ";
+
         string input;
         getline(cin, input);
 
@@ -55,7 +55,7 @@ int main() {
             if (found) {
                 cout << input.substr(5) << " is a shell builtin\n";
             } else {
-                string path = get_path(input);
+                string path = get_path(input.substr(5));
 
                 if (path.empty()) {
                     cout << input << " not found\n";
