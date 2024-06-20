@@ -5,11 +5,11 @@
 
 using namespace std;
 
-std::string get_path(std::string command) {
-    std::string path_env = std::getenv("PATH");
+string get_path(string command) {
+    string path_env = std::getenv("PATH");
 
-    std::stringstream ss(path_env);
-    std::string path;
+    stringstream ss(path_env);
+    string path;
 
     while (!ss.eof()) {
         getline(ss, path, ':');
@@ -44,24 +44,25 @@ int main() {
         }
         else if (input.substr(0, 4) == commands[2]) { //Type function
             bool found = false; //variable to hold a boolean for when a function is found.
+            string typeParam = input.substr(5);
 
             for (int i = 0; i < 4; i++) { // Loops over the array to find if the command exists in the array.
-                if (commands[i] == input.substr(5)) {
+                if (commands[i] == typeParam) {
                     found = true;
                     break; //Stops the for loop from continuing.
                 }
             }
 
             if (found) {
-                cout << input.substr(5) << " is a shell builtin\n";
+                cout << typeParam << " is a shell builtin\n";
             } else {
-                string path = get_path(input.substr(5));
+                string path = get_path(typeParam);
 
                 if (path.empty()) {
-                    cout << input << ": not found\n";
+                    cout << typeParam << ": not found\n";
                 }
                 else {
-                    cout << input.substr(5) << " is " << path << endl;
+                    cout << typeParam << " is " << path << endl;
                 }
             }
         } else { //Command not found function
