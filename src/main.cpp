@@ -24,7 +24,7 @@ string get_path(string command) {
 }
 
 int main() {
-    string commands[4] = { "exit", "echo", "type", "pwd"};
+    string commands[5] = { "exit", "echo", "type", "pwd", "cd"};
     bool running = true;
 
     while (running) {
@@ -73,17 +73,23 @@ int main() {
                 }
             }
         }
-        else if (!get_path(command).empty()) {
+        else if (!get_path(command).empty()) { // Executing program
             //Gets the path of the executable, and then adds any parameters to the end.
             string commandWithParam = get_path(command) + " " + input.substr(input.find(" ") + 1);
 
             //Executes the program.
             system(&commandWithParam[0]);
         }
-        else if (command == commands[3]) {
+        else if (command == commands[3]) { // pwd command
             string cwd = filesystem::current_path().generic_string();
             cout << cwd.substr(0,cwd.length()) << "\n";
-        } else { //Command not found function
+        } else if (command == commands[4]) { //cd command
+            string directory = input.substr(input.find(" ") + 1);
+            
+            if (filesystem::exists(directory)) {
+                filesystem::current_path() = directory;
+            }
+        } else{ //Command not found function
             cout << input << ": command not found\n";
         }
     }
