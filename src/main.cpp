@@ -24,7 +24,7 @@ string get_path(string command) {
 }
 
 int main() {
-    string commands[3] = { "exit", "echo", "type" };
+    string commands[4] = { "exit", "echo", "type", "pwd"};
     bool running = true;
 
     while (running) {
@@ -79,6 +79,9 @@ int main() {
 
             //Executes the program.
             system(&commandWithParam[0]);
+        }
+        else if (command == commands[3]) {
+            cout << filesystem::current_path();
         } else { //Command not found function
             cout << input << ": command not found\n";
         }
