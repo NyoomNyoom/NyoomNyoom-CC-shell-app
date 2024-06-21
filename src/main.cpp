@@ -74,12 +74,11 @@ int main() {
             }
         }
         else if (!get_path(command).empty()) {
-            string commandWithPath = get_path(command); 
-            string paramter = input.substr(input.find(" ") + 1);
-            string output = commandWithPath + " " + paramter;
+            //Gets the path of the executable, and then adds any parameters to the end.
+            string commandWithParam = get_path(command) + " " + input.substr(input.find(" ") + 1);
 
-            system(&output[0]);
-
+            //Executes the program.
+            system(&commandWithParam[0]);
         } else { //Command not found function
             cout << input << ": command not found\n";
         }
