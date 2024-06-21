@@ -86,9 +86,11 @@ int main() {
         } else if (command == commands[4]) { //cd command
             string directory = input.substr(input.find(" ") + 1);
             
-            if (filesystem::exists(directory)) {
-                filesystem::current_path() = directory;
-            }
+            filesystem::current_path() = directory;
+
+            //if (filesystem::exists(directory)) {
+            //    filesystem::current_path() = directory;
+            //}
         } else{ //Command not found function
             cout << input << ": command not found\n";
         }
