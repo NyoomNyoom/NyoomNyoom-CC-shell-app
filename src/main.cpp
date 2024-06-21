@@ -81,7 +81,8 @@ int main() {
             system(&commandWithParam[0]);
         }
         else if (command == commands[3]) {
-            cout << filesystem::current_path() << "\n";
+            string cwd = filesystem::current_path().generic_string();
+            cout << cwd.substr(0,cwd.length()) << "\n";
         } else { //Command not found function
             cout << input << ": command not found\n";
         }
