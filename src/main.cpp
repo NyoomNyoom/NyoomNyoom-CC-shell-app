@@ -36,13 +36,19 @@ int main() {
         string input;
         getline(cin, input);
 
-        if (input.substr(0, 4) == commands[0]) { //Exit function
+        //Grabs the command from the first word of the script.
+        stringstream ss(input);
+        string command;
+        ss >> command;
+
+
+        if (command == commands[0]) { //Exit function
             running = false;
         }
-        else if (input.substr(0, 4) == commands[1]) { //Echo function
+        else if (command == commands[1]) { //Echo function
             cout << input.substr(5) << "\n";
         }
-        else if (input.substr(0, 4) == commands[2]) { //Type function
+        else if (command == commands[2]) { //Type function
             bool found = false; //variable to hold a boolean for when a function is found.
             string typeParam = input.substr(5);
 
@@ -55,7 +61,8 @@ int main() {
 
             if (found) {
                 cout << typeParam << " is a shell builtin\n";
-            } else {
+            }
+            else {
                 string path = get_path(typeParam);
 
                 if (path.empty()) {
@@ -65,6 +72,14 @@ int main() {
                     cout << typeParam << " is " << path << endl;
                 }
             }
+        }
+        else if (!get_path(command).empty()) {
+            string commandWithPath = get_path(command); 
+            string paramter = input.substr(input.find(" ") + 1);
+            string output = commandWithPath + " " + paramter;
+
+            system(&output[0]);
+
         } else { //Command not found function
             cout << input << ": command not found\n";
         }
