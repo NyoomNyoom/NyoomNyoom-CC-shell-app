@@ -47,3 +47,15 @@ _deps
 
 build/
 vcpkg_installed
+*.db
+.vs/shell-starter-cpp/FileContentIndex/4cca4474-c6e5-422c-a1ba-524804d901c9.vsidx
+/.vs/shell-starter-cpp/FileContentIndex
+/.vs
+*.vcxproj
+*.filters
+*.user
+/.vscode
+/Debug
+/shell.dir
+/x64
+shell-starter-cpp.sln
