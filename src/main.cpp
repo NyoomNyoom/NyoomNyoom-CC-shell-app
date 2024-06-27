@@ -2,6 +2,7 @@
 #include <complex>
 #include <sstream>
 #include <filesystem>
+#include <fstream>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ string get_path(string command) {
 }
 
 int main() {
-    string commands[5] = { "exit", "echo", "type", "pwd", "cd"};
+    string commands[6] = { "exit", "echo", "type", "pwd", "cd", "cat"};
     bool running = true;
 
     while (running) {
@@ -89,7 +90,18 @@ int main() {
             if (filesystem::exists(directory)) {
                 filesystem::current_path(directory);
             }
-        } else{ //Command not found function
+        } else if (command == commands[5]) {
+            string line;
+            string pathString = input.substr(input.find(" ") + 1);
+            
+            ifstream MyFile(get_path(pathString));
+            
+            while (getline(MyFile, line)) {
+                cout << line;
+            }
+
+            MyFile.close();
+        } else { //Command not found function
             cout << input << ": command not found\n";
         }
     }
